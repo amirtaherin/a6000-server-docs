@@ -11,7 +11,7 @@ This repository contains the documentation for the A6000 research server, includ
 
 - `A6000_Server_Documentation.md` — Markdown version
 - `A6000_Server_Documentation.tex` — LaTeX version
-- `A6000_Server_Documentation.pdf` — PDF (generated via GitHub Actions)
+- `A6000_Server_Documentation.pdf` — PDF version
 
 ## How to Build PDF Locally
 

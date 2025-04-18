@@ -1,4 +1,6 @@
 # A6000 Research Server Documentation
+Author: Amir Taherin
+Date: April 2025
 
 ## Overview
 This server is intended for deep learning and research workloads by multiple students and researchers. The system has been upgraded with high-performance and large-capacity storage to support parallel experimentation, model development, and data handling.
