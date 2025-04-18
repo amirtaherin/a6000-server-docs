@@ -1,0 +1,90 @@
+
+\documentclass{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+
+\title{A6000 Research Server Documentation}
+\date{April 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Overview}
+This server is intended for deep learning and research workloads by multiple students and researchers. The system has been upgraded with high-performance and large-capacity storage to support parallel experimentation, model development, and data handling.
+
+\section*{Hardware Summary}
+\begin{itemize}
+  \item \textbf{Server Name:} A6000 Server
+  \item \textbf{Architecture:} x86\_64
+  \item \textbf{CPU:} 2× Intel(R) Xeon(R) Gold 5418Y, 96 threads (24 cores/socket, 2 threads/core), 3.8GHz max
+  \item \textbf{RAM:} 256GB DDR4
+  \item \textbf{GPU:} 8× NVIDIA RTX A6000 (48GB each)
+  \item \textbf{CUDA Version:} 12.3
+  \item \textbf{NVIDIA Driver:} 545.23.08
+  \item \textbf{Total Storage:} ~40TB usable
+\end{itemize}
+
+\section*{Storage Layout}
+\begin{longtable}{|l|l|l|l|p{6cm}|}
+\hline
+\textbf{Mount Point} & \textbf{Disk(s)} & \textbf{Capacity} & \textbf{Type} & \textbf{Purpose} \\
+\hline
+/home & 2×8TB SSD (RAID0) & ~15TB & SSD (RAID 0) & User home directories (fast access) \\
+/data & 22TB HDD & ~20TB & HDD & Large datasets, models, experiments \\
+/fast & 1.4TB NVMe & ~1.4TB & NVMe SSD & Conda envs, pip/hf cache, scratch use \\
+/archive & 5×1TB HDD (RAID5) & ~3.6TB & HDD (RAID 5) & Backup/archive, not in active use yet \\
+\hline
+\end{longtable}
+
+\section*{Shared Conda \& Cache Configuration}
+\subsection*{Conda}
+\begin{itemize}
+  \item Conda environments: \texttt{/fast/conda/envs}
+  \item Conda package cache: \texttt{/fast/conda/pkgs}
+\end{itemize}
+This is pre-configured via a \texttt{.condarc} file in each user's home directory.
+
+\subsection*{HuggingFace / Torch Cache}
+\begin{itemize}
+  \item HuggingFace cache: \texttt{/fast/hf\_cache}
+  \item Torch cache: \texttt{/fast/hf\_cache}
+\end{itemize}
+
+Global environment variables:
+\begin{lstlisting}[language=bash]
+export CONDA_ENVS_PATH=/fast/conda/envs
+export CONDA_PKGS_DIRS=/fast/conda/pkgs
+export TRANSFORMERS_CACHE=/fast/hf_cache
+export HF_HOME=/fast/hf_cache
+export TORCH_HOME=/fast/hf_cache
+\end{lstlisting}
+
+\section*{Notes for Users}
+\begin{itemize}
+  \item All users have access to \texttt{/home}, \texttt{/data}, and \texttt{/fast}
+  \item You are free to create, experiment, and install things as needed
+  \item Use \texttt{/fast} for temporary files, cache, training runs
+  \item \textbf{Do not} store large datasets or models in \texttt{/home}. Use \texttt{/data}
+  \item \texttt{/archive} is reserved for backups (future use)
+\end{itemize}
+
+\section*{System Admin Notes}
+\begin{itemize}
+  \item RAID0 setup via \texttt{mdadm} for \texttt{/home}
+  \item RAID5 setup via \texttt{mdadm} for \texttt{/archive}
+  \item \texttt{/etc/fstab} and \texttt{mdadm.conf} updated for persistence
+  \item All user caches cleaned (April 2025) and redirected to \texttt{/fast}
+\end{itemize}
+
+\section*{Optional Future Enhancements}
+\begin{itemize}
+  \item Auto-cleanup for \texttt{/fast/scratch}
+  \item Quotas for \texttt{/home}
+  \item Cron-based backups to \texttt{/archive}
+\end{itemize}
+
+\end{document}
