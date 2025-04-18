@@ -26,7 +26,6 @@ This server is intended for deep learning and research workloads by multiple stu
 | `/home`     | 2×8TB SSD (RAID0) | ~15TB    | SSD (RAID 0)  | User home directories (fast access)    |
 | `/data`     | 22TB HDD          | ~20TB    | HDD           | Large datasets, models, experiments    |
 | `/fast`     | 1.4TB NVMe        | ~1.4TB   | NVMe SSD      | Conda envs, pip/hf cache, scratch use  |
-| `/archive`  | 5×1TB HDD (RAID5) | ~3.6TB   | HDD (RAID 5)  | Backup/archive, not in active use yet  |
 
 ---
 
